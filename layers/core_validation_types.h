@@ -813,10 +813,13 @@ class ImageSubresourceLayoutMapImpl : public ImageSubresourceLayoutMap {
 
         return subres;
     }
-
+#if defined(WIN32)
+    uint32_t LevelLimit(uint32_t level) const { return min(image_state_.full_range.levelCount, level); }
+    uint32_t LayerLimit(uint32_t layer) const { return min(image_state_.full_range.layerCount, layer); }
+#else
     uint32_t LevelLimit(uint32_t level) const { return std::min(image_state_.full_range.levelCount, level); }
     uint32_t LayerLimit(uint32_t layer) const { return std::min(image_state_.full_range.layerCount, layer); }
-
+#endif
     bool InRange(const VkImageSubresource &subres) const {
         bool in_range = (subres.mipLevel < image_state_.full_range.levelCount) &&
                         (subres.arrayLayer < image_state_.full_range.layerCount) &&
