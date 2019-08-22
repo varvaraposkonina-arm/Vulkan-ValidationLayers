@@ -272,7 +272,7 @@ class vl_concurrent_unordered_map {
     struct {
         lock_t lock;
         // Put each lock on its own cache line to avoid false cache line sharing.
-        char padding[64 - sizeof(lock_t)];
+        //char padding[64 - sizeof(lock_t)];
     } locks[BUCKETS];
 
     uint32_t ConcurrentMapHashObject(const Key &object) const {
